@@ -15,6 +15,9 @@
   <% if !current_user.nil? and !u.nil? and current_user.id == u.id %>
 
 <div class="cont_stage"> <!-- 텍스트창 비활성화상태 -->
+    <% @posts.each do |p| %>
+      <img src="<%= p.my_image.url %>" style="height:100%"><br>
+    <% end %>
   <form class="cont_box" action="/mypage/write" enctype= "multipart/form-data" method="POST">
     <input class="cont_txt" rows="4" cols="50" name="content"><br>
     <!--사진 올리는 버튼-->
