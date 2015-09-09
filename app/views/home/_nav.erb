@@ -1,0 +1,18 @@
+<!--------------- NAV -------------------------------------->
+  <nav>
+    <div class="row">
+      <div class="col-xs-6 nav_head"><a href="/"><img src="//rooftop-ghanhanhan-1.c9.io/sources/logo.png" style="height:30px"></a></div>
+      <div class="col-xs-6 nav_li">
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <% if user_signed_in? %>
+              <li><a href ='/mypage/profile'><%= current_user.nickname %></a></li>
+              <li><a href ='/users/sign_out'>로그아웃</a></li>
+            <% else %>
+              <li><a href ='/users/sign_in'>로그인</a></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>

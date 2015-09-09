@@ -1,0 +1,8 @@
+<h1>수정</h1>
+
+<form action="/mypage/update/<%= @one_post.id %>" method="POST">
+    Name : <input type="text" value="<%= @one_post.post_username %>" name="new_username"><br>
+    Content : <textarea name="new_content"><%= @one_post.post_content %></textarea><br>
+    <input type ="submit" value="수정">
+</form>
+<a href ="/">돌아가기</a>

@@ -1,0 +1,104 @@
+<!--------------- NAV -------------------------------------->
+<%= render :partial => "/home/nav" %>
+
+<!---------------- FACEBOOK LOGIN JS -------------------->
+    <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.4&appId=658492017621365";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+   
+   
+<!--------------- 로그인 링크 --------------------------->
+<!--<h2>-->
+<!--    <% if user_signed_in? %>-->
+<!--    <%= current_user.nickname %>-->
+<!--    <a href ='/users/sign_out'>로그아웃하기</a>-->
+<!--    <% else %>-->
+<!--    <p1>-->
+<!--        <a style="display:none" href ='/users/sign_in'>로그인하기</a>-->
+<!--    </p1>-->
+<!--    <p2>-->
+<!--        <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>-->
+<!--    </p2>-->
+<!--    <% end %>-->
+<!--</h2>-->
+    
+<!---------------- SIGN IN BOX ---------------------------->
+<div class="row">
+  <div class="col-md-4 col-sm-3 col-xs-1"></div>
+  <div class="col-md-4 col-sm-6 col-xs-10">
+    <form class="new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post">
+      
+      <input name="utf8" type="hidden" value="&#x2713;" />
+      <input type="hidden" name="authenticity_token" value="YpLf6Re74uwXw6KXmrO5zw3jYXAy4cGm6z/QE7rA6UOYBs0skgqDgW4lBOjCRsFkq2MZBT7NfIC2lO3RFK2ESA==" />
+      
+      <div class="box_title">SIGN IN</div>
+      
+      <div class="field input_box">
+        <!--<label for="user_email">Email</label><br />-->
+        <input autofocus="autofocus" type="email" value="" name="user[email]" id="user_email" placeholder="Email" />
+      </div>
+    
+      <div class="field input_box">
+        <!--<label for="user_password">Password</label><br />-->
+        <input autocomplete="off" type="password" name="user[password]" id="user_password" placeholder="Password" />
+      </div>
+      
+      <div class="field" style="margin-top:5px;">
+        <input name="user[remember_me]" type="hidden" value="0" /><input type="checkbox" value="1" name="user[remember_me]" id="user_remember_me" />
+        <label for="user_remember_me">Remember me</label>
+      </div>
+    
+      <div class="actions">
+        <input type="submit" name="commit" value="SIGN IN" />
+      </div>
+      
+      <!----------- FACEBOOK LOGIN CUSTOM BUTTON ------------->
+      <div class="actions">
+        <a href="#" onclick="FB.login();">
+          <div class="fb_login">SIGN IN with FACEBOOK</div>
+        </a>
+      </div>
+    
+      <br/>
+      <a href="/users/sign_up">Sign up</a><br/>
+      <a href="/users/password/new">Forgot your password?</a><br/>
+    </form>
+  </div>
+  <div class="col-md-4 col-sm-3 col-xs-1"></div>
+</div>
+
+
+<!---------------- ORIGINAL DEVISE ---------------------------->
+<!--<h2>로그인</h2>-->
+<!--<form class="new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="YpLf6Re74uwXw6KXmrO5zw3jYXAy4cGm6z/QE7rA6UOYBs0skgqDgW4lBOjCRsFkq2MZBT7NfIC2lO3RFK2ESA==" />-->
+<!--  <div class="field">-->
+<!--    <label for="user_email">Email</label><br />-->
+<!--    <input autofocus="autofocus" type="email" value="" name="user[email]" id="user_email" />-->
+<!--  </div>-->
+
+<!--  <div class="field">-->
+<!--    <label for="user_password">Password</label><br />-->
+<!--    <input autocomplete="off" type="password" name="user[password]" id="user_password" />-->
+<!--  </div>-->
+
+<!--    <div class="field">-->
+<!--      <input name="user[remember_me]" type="hidden" value="0" /><input type="checkbox" value="1" name="user[remember_me]" id="user_remember_me" />-->
+<!--      <label for="user_remember_me">Remember me</label>-->
+<!--    </div>-->
+
+<!--  <div class="actions">-->
+<!--    <input type="submit" name="commit" value="Log in" />-->
+<!--  </div>-->
+<!--</form>-->
+
+<!--  <a href="/users/sign_up">Sign up</a><br />-->
+
+<!--  <a href="/users/password/new">Forgot your password?</a><br />-->
+
+
+

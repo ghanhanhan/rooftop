@@ -1,0 +1,74 @@
+<!--------------- NAV -------------------------------------->
+<%= render :partial => "/home/nav" %>
+  
+  
+<!--------------- MYPAGE CONTENT --------------------------->
+
+<h2 class="user_link">
+  <span id='button-copy' data-clipboard-text='rooftop.house/<%= params[:username] %>'>&nbsp;rooftop.house/<%= params[:username] %>&nbsp;</span>
+</h2>
+<h6 class="user_link">Click to Copy the Link</h6>
+
+
+
+<% u = User.where(nickname: params[:username]).take %>
+  <% if !current_user.nil? and !u.nil? and current_user.id == u.id %>
+
+<div class="cont_stage"> <!-- 텍스트창 비활성화상태 -->
+  <form class="cont_box" action="/mypage/write" enctype= "multipart/form-data" method="POST">
+    <input class="cont_txt" rows="4" cols="50" name="content"><br>
+    <!--사진 올리는 버튼-->
+    <input type ="file" name="image_file">
+    <input type ="submit" value="올리기!">
+  </form>
+</div>
+  
+  <% else %>
+    
+<% end %>
+
+<!-------- POSTS-------------->
+<% @posts.each do |p| %>
+  
+  <img src="<%= p.my_image.url %>"><br>
+  <%= p.post_username %> : <%= p.post_content %> 
+    
+  <!--삭제-->        
+  <a href="/mypage/delete/<%= p.id %>">[X]</a>   
+  <!-- 수정-->
+  <a href="/mypage/modify/<%= p.id %>">[M]</a> <br>
+  
+  <!--댓글출력-->
+  <% p.replies.each do |r| %>
+    > <%=r.content %><br>
+  <% end %>
+  
+  <!--댓글 입력하는 폼-->
+  <form action = "/mypage/write_reply" type="POST">
+        ---
+    <input type ="hidden" name="my_post_my_id" value="<%=p.id%>">
+    <input type = "text" name="myreply"><br>
+    <input type ="submit" value="댓글!!">
+         
+  </form>
+    
+<% end %>
+    
+
+<!------ ZEROCLIPBOARD SCRIPT (LINK COPY) ---------------------------->
+<script src='//code.jquery.com/jquery.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js'></script>
+<script>
+$(function() {
+	ZeroClipboard.config({
+		swfPath: '//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.swf',
+		forceHandCursor: true
+	});
+	var clipboard = new ZeroClipboard($('#button-copy'));
+	clipboard.on('aftercopy', function(event) {
+	  alert('Copied : '+event.data['text/plain']);
+
+	  
+	});
+});
+</script>

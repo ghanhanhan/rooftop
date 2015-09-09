@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <title>Rooftop</title>
+  
+  <!-------------------------------BOOTSTRAP---------------------------------------->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+  
+  <!-------------------------------CUSTOM CSS--------------------------------------->
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <!-------------------------------CUSTOM JS---------------------------------------->
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <!-------------------------------ROOFTOP ICO-------------------------------------->
+  <link rel="icon" type="image/png" href="//rooftop-ghanhanhan-1.c9.io/sources/logo_ico.png" />
+
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+
+<footer>
+  &copy; rooftop 2015 All Rights Reserved
+</footer>
+
+</html>
