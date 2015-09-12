@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20150830223942) do
   create_table "posts", force: :cascade do |t|
     t.string   "post_username"
     t.text     "post_content"
-    t.string   "my_image"
+    t.string   "cover_image"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end

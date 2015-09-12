@@ -3,16 +3,34 @@
     <div class="row">
       <div class="col-xs-6 nav_head"><a href="/"><img src="//rooftop-ghanhanhan-1.c9.io/sources/logo.png" style="height:30px"></a></div>
       <div class="col-xs-6 nav_li">
+        
         <div id="navbar">
           <ul class="nav navbar-nav">
+            
             <% if user_signed_in? %>
-              <li><a href ='/mypage/profile'><%= current_user.nickname %></a></li>
+
+              <li class="nav_nick">
+                <p id="flip"><%= current_user.nickname %></p>
+                <ul class="nav_panel" id="panel">
+                  <form action=home#index method="POST">
+                    <input class="input_nick" type = "text" name="myname" placeholder="Name"></br>
+                    <input class="input_nick" type = "text" name="myage" placeholder="Age"></br>
+                    <input class="input_nick" type = "text" name="mygender" placeholder="Gender"></br>
+                    <input class="input_nick" type = "text" name="mynationality" placeholder="Nationality"></br>
+                    <input class="input_nick" type = "text" name="myetc" placeholder="Whatever You Like"></br>
+                    <input class="button_nick" type="submit" value="Submit">
+                  </form>
+                </ul>
+              </li>
+              
               <li><a href ='/users/sign_out'>로그아웃</a></li>
             <% else %>
               <li><a href ='/users/sign_in'>로그인</a></li>
             <% end %>
+            
           </ul>
         </div>
+        
       </div>
     </div>
   </nav>

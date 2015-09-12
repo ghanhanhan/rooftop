@@ -4,7 +4,7 @@ class CreatePosts < ActiveRecord::Migration
       
       t.string :post_username
       t.text :post_content
-      t.string :my_image
+      t.string :cover_image
 
       t.timestamps null: false
     end

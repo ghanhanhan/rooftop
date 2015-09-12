@@ -5,8 +5,20 @@ class MypageController < ApplicationController
     end    
         # 메인페이지
     def page
+        @post_count = Post.where(post_username: params[:username])
+                          .count
+        if @post_count == 0
+            (0..4).each do |index|
+                post = Post.new
+                post.post_username = params[:username]
+                post.post_content = ""
+                post.save
+            end
+        end
+        
         @posts = Post.where(post_username: params[:username])
     end  
+    
     def profile
     end
 
@@ -15,7 +27,11 @@ class MypageController < ApplicationController
         post = Post.new
         post.post_username = current_user.nickname
         post.post_content = params[:content]
-        post.my_image = params[:image_file]
+        post.cover_image = params[:cover_image]
+        # post.my_image2 = params[:image_file]
+        # post.my_image3 = params[:image_file]
+        # post.my_image4 = params[:image_file]
+        # post.my_image5 = params[:image_file]
         post.save
         redirect_to  "/"
         
@@ -34,12 +50,14 @@ class MypageController < ApplicationController
     # 업데이트
     
     def update
-        one_post = Post.find(params[:id])
-        one_post.post_username = params[:new_username]
-        one_post.post_content = params[:new_content]
+        one_post = Post.find(params[:post_id])
+        one_post.post_content = params[:post_content]
+        if params[:cover_image]
+            one_post.cover_image = params[:cover_image]
+        end
         one_post.save
         
-        redirect_to  "/"
+        redirect_to  "/" + params[:username]
     end
     # 리플라이
     def write_reply
@@ -47,6 +65,6 @@ class MypageController < ApplicationController
         my_reply.post_id = params[:my_post_my_id]
         my_reply.content = params[:myreply]
         my_reply.save
-        redirect_to "/"
+        redirect_to "/" + params[:username]
     end
 end
