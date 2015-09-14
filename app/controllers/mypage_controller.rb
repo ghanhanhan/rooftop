@@ -3,7 +3,10 @@ class MypageController < ApplicationController
     def index
         @is_owner = true
     end    
-        # 메인페이지
+    
+    @user_nav = nil
+    
+    # 메인페이지
     def page
         @post_count = Post.where(post_username: params[:username])
                           .count
@@ -17,10 +20,54 @@ class MypageController < ApplicationController
         end
         
         @posts = Post.where(post_username: params[:username])
+        
+        # get user nav if exist
+        user_nav = Nav.find_by_user_id(current_user.id)
+        @user_nav = user_nav ? user_nav : Nav.new
     end  
     
     def profile
+        # check user_nav exist
+        user_nav = Nav.find_by_user_id(current_user.id)
+        if user_nav
+            nav = user_nav
+            nav.myname = params[:myname]
+            nav.myage = params[:myage]
+            nav.mygender = params[:mygender]
+            nav.mynationality = params[:mynationality]
+            nav.myetc = params[:myetc]
+            nav.save
+        else
+            nav = Nav.new
+            nav.myname = params[:myname]
+            nav.myage = params[:myage]
+            nav.mygender = params[:mygender]
+            nav.mynationality = params[:mynationality]
+            nav.myetc = params[:myetc]
+            nav.user_id = current_user.id
+            nav.save
+        end
+        
+        redirect_to "/"
     end
+    
+    # def nav_modify
+    #     @one_nav = Nav.find(params[:nav_id])
+       
+        
+    # end
+    
+    # def nav_update
+    #     one_nav = Nav.find(params[:user_id])
+    #     one_nav.myname = params[:new_myname]
+    #     one_nav.myage = params[:new_myage]
+    #     one_nav.mygender = params[:new_mygender]
+    #     one_nav.mynationality = params[:new_mynationality]
+    #     one_nav.myetc = params[:new_myetc]
+    #     one_nav.save
+      
+    #     redirect_to  "/"
+    # end
 
     # 글쓰기
     def write
@@ -28,10 +75,6 @@ class MypageController < ApplicationController
         post.post_username = current_user.nickname
         post.post_content = params[:content]
         post.cover_image = params[:cover_image]
-        # post.my_image2 = params[:image_file]
-        # post.my_image3 = params[:image_file]
-        # post.my_image4 = params[:image_file]
-        # post.my_image5 = params[:image_file]
         post.save
         redirect_to  "/"
         
@@ -57,7 +100,7 @@ class MypageController < ApplicationController
         end
         one_post.save
         
-        redirect_to  "/" + params[:username]
+        redirect_to  "/home#index"
     end
     # 리플라이
     def write_reply

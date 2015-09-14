@@ -3,51 +3,103 @@
   
   
 <!--------------- MYPAGE CONTENT --------------------------->
-
 <!-- user link -->
-<h2 class="user_link">
+
+
+<button class="user_link" data-target="#linkcopied" data-toggle="modal">
   <span id='button-copy' data-clipboard-text='rooftop.house/<%= params[:username] %>'>&nbsp;rooftop.house/<%= params[:username] %>&nbsp;</span>
-</h2>
-<h6 class="user_link">Click to Copy the Link</h6>
+</button>
 
-
-
-<% u = User.where(nickname: params[:username]).take %>
-<% @posts.each do |p| %>
-  <div class="cont_stage"> 
-    <% if p.cover_image %>
-      <img src="<%= p.cover_image %>" style="height:100%; margin-bottom: 20px;">
-    <% else %>
-      <img src="http://placehold.it/300x800" style="height:100%; margin-bottom: 20px;">
-    <% end %>
-    <% if !current_user.nil? and !u.nil? and current_user.id == u.id %>
-      <form class="cont_box" action="/mypage/update" enctype="multipart/form-data" method="post" autocomplete="off">
-        <input type="hidden" name="post_id" value="<%= p.id %>">
-        <input class="cont_txt" rows="4" cols="50" name="post_content" value="<%= p.post_content %>">
-        <!--사진 올리는 버튼-->
-        <input type ="file" name="cover_image">
-        <input type ="submit" value="올리기!">
-      </form>
-    <% else %>
-      <div class="cont_txt"><%= p.post_content %></div>
-    <% end %>
-    </br>
-    </br>
-    <!--댓글출력-->
-    <div class="cont__replies">
-      <% p.replies.each do |r| %>
-        <div class="cont__replies__item"><%=r.content %></div>
-      <% end %>
-        
-      <!--댓글 입력하는 폼-->
-      <form action="/mypage/write_reply?username=<%= p.post_username %>" method="post">
-        <input type="hidden" name="my_post_my_id" value="<%= p.id %>">
-        <input type="text" name="myreply"><br>
-        <input type="submit" value="댓글!!">
-      </form>
+<div class="modal fade" id="linkcopied" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header"> <!-- header -->
+        <!-- 닫기(x) 버튼 -->
+        <button type="button" class="close" data-dismiss="modal"> × </button>
+        <!-- header title -->
+        <h4 class="modal-title">Copied!</h4>
+      </div>
+      
+      <div class="modal-body"> <!-- body -->
+        rooftop.house/<%= params[:username] %>
+      </div>
+      
+      <div class="modal-footer"> <!-- Footer -->
+        <button type="button" class="fb_login" data-dismiss="modal">Share this Link on Facebook!</button>
+      </div>
+      
     </div>
   </div>
-<% end %>
+</div>
+           
+<div style="text-align:center">
+  
+  
+  
+
+  <% u = User.where(nickname: params[:username]).take %>
+  
+    <% if u.nil? %>
+      <h1>No one's on it, yet!</h1>
+      
+        </br>
+        </br>
+        </br>
+        <img src="//rooftop-ghanhanhan-1.c9.io/sources/ico_chair.png" style="width:300px">
+  
+    <% else %>
+    
+   
+    <% @posts.each do |p| %>
+  
+        <div class="cont_stage"> 
+          <div class="img_div">
+            <% if p.cover_image.nil? %><!-- 해당page의 user가 이미지를 업로드했으면-->
+            <% else %>
+              <img onerror="this.src='//rooftop-ghanhanhan-1.c9.io/sources/img_none.png';" src="<%= p.cover_image %>">
+            <% end%>
+           
+          </div>
+          
+          <!-- user가 자신의 page들어왔을때 post창이 뜨도록 -->
+          <% if !current_user.nil? and !u.nil? and current_user.id == u.id %>
+            <form class="cont_box" action="/mypage/update" enctype="multipart/form-data" method="post" autocomplete="off">
+              <input type="hidden" name="post_id" value="<%= p.id %>">
+              <input class="cont_txt_input" rows="4" cols="50" name="post_content" value="<%= p.post_content %>">
+              <!--사진 올리는 버튼-->
+              <input type ="file" name="cover_image">
+              <input type ="submit" value="올리기!">
+            </form>
+          <% else %>
+            <div class="cont_txt_output"><%= p.post_content %></div>
+          <% end %>
+  
+          <!--<h1><a href "mypage/link" name=""></a></h1> -->
+          <!--댓글출력-->
+          <!--<div class="cont__replies">-->
+          <!--  <% p.replies.each do |r| %>-->
+          <!--    <div class="cont__replies__item"><%=r.content %></div>-->
+          <!--  <% end %>-->
+              
+          <!--댓글 입력하는 폼-->
+          <!--  <form action="/mypage/write_reply?username=<%= p.post_username %>" method="post">-->
+          <!--    <input type="hidden" name="my_post_my_id" value="<%= p.id %>">-->
+          <!--    <input type="text" name="myreply"><br>-->
+          <!--    <input type="submit" value="댓글!!">-->
+          <!--  </form>-->
+          <!--</div>-->
+          
+        </div><!--cont_stage-->
+  
+    
+    <% end %>
+  <% end %>
+
+</div>
+
+<%= @user_nav.myname %> : <%= @user_nav.myage %> : <%= @user_nav.mygender %> : <%= @user_nav.mynationality %> : <%= @user_nav.myetc %>
+
 
 
 
@@ -62,9 +114,13 @@ $(function() {
 	});
 	var clipboard = new ZeroClipboard($('#button-copy'));
 	clipboard.on('aftercopy', function(event) {
-	  alert('Copied : '+event.data['text/plain']);
-
+	 // alert('Copied : '+event.data['text/plain']);
 	  
 	});
 });
+
 </script>
+
+
+<!--------------- crop -------------------------------------->
+<%= render :partial => "/home/imgcrop" %>

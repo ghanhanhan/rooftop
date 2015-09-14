@@ -88,33 +88,11 @@
 
 
 
-<!--------------------------------------------------------------------------------------------->
+<!--------------- SCROLL BACKGROUND IMAGE -------------------------------------->
 
 <div id="index_bg">
     <img src="//rooftop-ghanhanhan-1.c9.io/sources/index_signup.jpg">
 </div>
 
-<script>
-$(document).ready(function () {
-
-    // $(window).scroll(function () {
-    //     if ($(this).scrollTop() > 100) {
-    //         $('.scrollup').fadeIn();
-    //     } else {
-    //         $('.scrollup').fadeOut();
-    //     }
-    // });
-
-    // $('.scrollup').click(function () {
-    //     $("html, body").animate({
-    //         scrollTop: 0
-    //     }, 600);
-    //     return false;
-    // });
-    
-    
-    $("body").animate({ scrollTop: $(document).height() }, 1);
-    $("body").animate({ scrollTop: 0 }, 3000);
-
-});
-</script>
+<!--------------- SCROLL SCRIPT -------------------------------------->
+<%= render :partial => "/home/scroll" %>
