@@ -6,6 +6,7 @@ class HomeController < ApplicationController
             redirect_to '/' + current_user.nickname
         end
     end
+    
     def create
     end
 end

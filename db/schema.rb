@@ -27,16 +27,17 @@ ActiveRecord::Schema.define(version: 20150912171005) do
   create_table "posts", force: :cascade do |t|
     t.string   "post_username"
     t.text     "post_content"
-    t.string   "cover_image"
+    t.string   "file"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
 
   create_table "replies", force: :cascade do |t|
     t.integer  "post_id"
+    t.string   "nickname_id"
     t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "users", force: :cascade do |t|

@@ -14,16 +14,15 @@
                 <ul class="nav_panel" id="panel">
                   
                   <form action= "/mypage/profile/<%= current_user.id %>" method="post">
-                    <input class="input_nick" type="text" name="myname" placeholder="Name" value="<%= @user_nav.myname %>"></br>
-                    <input class="input_nick" type="text" name="myage" placeholder="Age" value="<%= @user_nav.myage %>"></br>
-                    <input class="input_nick" type="text" name="mygender" placeholder="Gender" value="<%= @user_nav.mygender %>"></br>
-                    <input class="input_nick" type="text" name="mynationality" placeholder="Nationality" value="<%= @user_nav.mynationality %>"></br>
-                    <input class="input_nick" type="text" name="myetc" placeholder="Whatever You Like" value="<%= @user_nav.myetc %>"></br>
+                    <input class="input_nick" type="text" name="myname" placeholder="Name" value="<%= @myprofile.myname %>"></br>
+                    <input class="input_nick" type="text" name="myage" placeholder="Age" value="<%= @myprofile.myage %>"></br>
+                    <input class="input_nick" type="text" name="mygender" placeholder="Gender" value="<%= @myprofile.mygender %>"></br>
+                    <input class="input_nick" type="text" name="mynationality" placeholder="Nationality" value="<%= @myprofile.mynationality %>"></br>
+                    <input class="input_nick" type="text" name="myetc" placeholder="Whatever You Like" value="<%= @myprofile.myetc %>"></br>
                     <input class="button_nick" type="submit" value="Submit">
                   </form>
                   
-                  
-                 <!--<#% end %>-->
+    
                 </ul>
               </li>
               

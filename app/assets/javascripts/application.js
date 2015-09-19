@@ -15,7 +15,6 @@
 //= require turbolinks
 //= require_tree .
 
-
 // nav:nickname : flip/panel(dropdown panel)
 $(document).ready(function(){
     $("#flip").click(function(){
@@ -23,5 +22,8 @@ $(document).ready(function(){
     });
 });
 
-
+//= require dropzone
 // image upload : drag and preview
+
+
+//enterkey

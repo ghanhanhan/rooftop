@@ -1,110 +1,237 @@
+
+          
 <!--------------- NAV -------------------------------------->
 <%= render :partial => "/home/nav" %>
   
   
 <!--------------- MYPAGE CONTENT --------------------------->
-<!-- user link -->
 
-
+<!-- user link(modal) --------------------------------------------->
 <button class="user_link" data-target="#linkcopied" data-toggle="modal">
   <span id='button-copy' data-clipboard-text='rooftop.house/<%= params[:username] %>'>&nbsp;rooftop.house/<%= params[:username] %>&nbsp;</span>
 </button>
 
-<div class="modal fade" id="linkcopied" >
+<div class="modal fade" id="linkcopied" tabindex="-1" >
   <div class="modal-dialog">
     <div class="modal-content">
-      
       <div class="modal-header"> <!-- header -->
-        <!-- 닫기(x) 버튼 -->
-        <button type="button" class="close" data-dismiss="modal"> × </button>
-        <!-- header title -->
-        <h4 class="modal-title">Copied!</h4>
+        <button type="button" class="closeX" data-dismiss="modal"> x </button> <!-- 닫기(x) 버튼 -->
+        <h4 class="modal-title">Copied!</h4> <!-- header title -->
       </div>
-      
       <div class="modal-body"> <!-- body -->
-        rooftop.house/<%= params[:username] %>
+        Copied : rooftop.house/<%= params[:username] %></br>
+        Paste it, and Invite your friends !
       </div>
-      
       <div class="modal-footer"> <!-- Footer -->
-        <button type="button" class="fb_login" data-dismiss="modal">Share this Link on Facebook!</button>
+        <!--<button type="button" class="fb_login">Share this Link on Facebook!</button>-->
+        <!-- Your share button code -->
+        <div class="fb-share-button" 
+            data-href="http://rooftop-ghanhanhan-1.c9.io/<%= params[:username] %>" 
+            data-layout="button_count">
+        </div>
       </div>
-      
     </div>
   </div>
 </div>
            
 <div style="text-align:center">
   
-  
-  
+<!-- 5posts(modal) --------------------------------------------->
 
   <% u = User.where(nickname: params[:username]).take %>
   
-    <% if u.nil? %>
+    <% if u.nil? %> <!--회원가입 안된 nickname의 page-->
       <h1>No one's on it, yet!</h1>
-      
         </br>
         </br>
         </br>
         <img src="//rooftop-ghanhanhan-1.c9.io/sources/ico_chair.png" style="width:300px">
-  
     <% else %>
     
    
-    <% @posts.each do |p| %>
-  
-        <div class="cont_stage"> 
+      <% @posts.each do |p| %>
+        <div class="cont_stage">
           <div class="img_div">
-            <% if p.cover_image.nil? %><!-- 해당page의 user가 이미지를 업로드했으면-->
-            <% else %>
-              <img onerror="this.src='//rooftop-ghanhanhan-1.c9.io/sources/img_none.png';" src="<%= p.cover_image %>">
-            <% end%>
-           
+          <% if p.file.nil? %><!-- 해당page의 user가 이미지를 업로드했으면-->
+          <% else %>
+              <img onerror="this.src='//rooftop-ghanhanhan-1.c9.io/sources/img_none.png';" src="<%= p.file %>">
+          <% end%>
+          </div>
+            
+            <!-- user가 자신의 page들어왔을때 post창이 뜨도록 -->
+          <% if !current_user.nil? and !u.nil? and current_user.id == u.id %>
+          
+          <div class="cont_box" data-target="#5posts<%=p.id%>" data-toggle="modal">
+            <!---------------MODAL BUTTON -------------------------->
+            <button data-target="#postm<%=p.id%>" data-toggle="modal" class="button_comment">
+              upload post
+            </button>
+            
+            <script>
+              $(".button_comment").on('click', function() {
+                //console.log( $("#5posts<%=p.id%>"));
+                //$("#5posts<%=p.id%>.in").modal('hide');
+                //console.log("test")
+                //$("#5posts<%=p.id%>.in").children();
+                console.log($(".closeX"));
+                $(".closeX").click();
+              });
+            </script>
+            <!---------------NONE MODAL -------------------------->
+            <!--<form class="cont_box" action="/mypage/update" enctype="multipart/form-data" method="post" autocomplete="off">-->
+            <!--  <input type="hidden" name="post_id" value="<%= p.id %>">-->
+            <!--  <input class="cont_txt_input" rows="4" cols="50" name="post_content" value="<%= p.post_content %>" style="height:300px">-->
+            <!--  사진 올리는 버튼-->
+            <!--  <input type ="file" name="cover_image">-->
+            <!--  <input type ="submit" value="올리기!">-->
           </div>
           
-          <!-- user가 자신의 page들어왔을때 post창이 뜨도록 -->
-          <% if !current_user.nil? and !u.nil? and current_user.id == u.id %>
-            <form class="cont_box" action="/mypage/update" enctype="multipart/form-data" method="post" autocomplete="off">
-              <input type="hidden" name="post_id" value="<%= p.id %>">
-              <input class="cont_txt_input" rows="4" cols="50" name="post_content" value="<%= p.post_content %>">
-              <!--사진 올리는 버튼-->
-              <input type ="file" name="cover_image">
-              <input type ="submit" value="올리기!">
-            </form>
-          <% else %>
-            <div class="cont_txt_output"><%= p.post_content %></div>
-          <% end %>
-  
-          <!--<h1><a href "mypage/link" name=""></a></h1> -->
-          <!--댓글출력-->
-          <!--<div class="cont__replies">-->
-          <!--  <% p.replies.each do |r| %>-->
-          <!--    <div class="cont__replies__item"><%=r.content %></div>-->
-          <!--  <% end %>-->
+          <!-- comment modal -->
+        <div class="modal fade" id="postm<%=p.id%>" tabindex="-1">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
               
-          <!--댓글 입력하는 폼-->
-          <!--  <form action="/mypage/write_reply?username=<%= p.post_username %>" method="post">-->
-          <!--    <input type="hidden" name="my_post_my_id" value="<%= p.id %>">-->
-          <!--    <input type="text" name="myreply"><br>-->
-          <!--    <input type="submit" value="댓글!!">-->
-          <!--  </form>-->
-          <!--</div>-->
-          
-        </div><!--cont_stage-->
-  
-    
-    <% end %>
-  <% end %>
+              <div class="modal-header"> <!-- header -->
+                 <!--닫기(x) 버튼 -->
+                <button type="button" class="closeX" data-dismiss="modal"> x </button>
+                 <!--header title -->
+                <h4 class="modal-title">POST</h4>
+              </div>
+              
+              <div class="modal-body"> <!-- body -->
 
+                
+                <!-- Change /upload-target to your upload address -->
+                <form action="/mypage/update" class="dropzone">
+                  <input type="hidden" name="post_id" value="<%=p.id%>">
+                  <br>
+                  <%#= submit_tag 'Submit Photo'%>
+                  
+                  <a href="/<%= params[:username] %>"><div class="button_comment">UPLOAD</div></a>
+                </form>
+                <!--<%#= form_tag '', method: :post, id: 'photo-info', remote: true, html: { multipart: true } do %>-->
+                <!--<div class="photoPreview" style="height: 200px">-->
+                <!--<p id="uploadClick" onclick="circleImageClick();cursor: pointer;">Click to Upload</p>-->
+                <!--</div>-->
+                
+                <!--<%#= file_field_tag :cover_image, accept: 'image/png,image/gif,image/jpeg, image/jpg', id: 'uploadAvatar' %>-->
+                <!--<p class="deletePhoto" onclick="deletePhoto();">Delete</p>-->
+                <!--<%#= submit_tag 'Submit Photo', id: 'submitPhoto' %>-->
+                
+                <!--<%# end %>-->
+              </div>
+              
+              <div class="modal-footer"> <!-- Footer -->
+                
+              </div>
+              
+            </div>
+          </div>
+        </div>
+          
+          <% else %>
+          
+          <div class="cont_txt_output" data-target="#5posts<%=p.id%>" data-toggle="modal">
+            <%= p.post_content %>
+          </div>
+          
+          <% end %>
+        </div><!--cont_stage-->
+        <!--</button>-->
+        
+        <!-- comment modal -->
+        <div class="modal fade" id="5posts<%=p.id%>" tabindex="-1">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              
+              <div class="modal-header"> <!-- header -->
+                <!-- 닫기(x) 버튼 -->
+                <button type="button" class="closeX" data-dismiss="modal"> x </button>
+                <!-- header title -->
+                <h4 class="modal-title">COMMENT</h4>
+              </div>
+              
+              <div class="modal-body"> <!-- body -->
+              
+            
+                <img onerror="this.src='//rooftop-ghanhanhan-1.c9.io/sources/img_none.png';" src="<%= p.file %>" style="height:50vh; margin-bottom:10px">
+              
+                <!--댓글출력-->
+                <div class="cont__replies">
+                  <% p.replies.each do |r| %>
+                    <div class="cont__replies__item"><%=r.nickname_id %>: <%=r.content %></div>
+                  <% end %>
+                    
+                
+                </div>
+                
+                <!--<a href="/powerade/delete/<%= p.id %>">[x]</a>   -->
+                <!--삭제-->
+                <!--<a href="/powerade/modify/<%= p.id %>">[m]</a> <br>-->
+                <!--수정-->
+              </div>
+              
+              <div class="modal-footer"> <!-- Footer -->
+                <!--댓글 입력하는 폼-->
+                <form class="comment_box row" action="/mypage/write_reply?username=<%= p.post_username %>" method="post">
+                  <input type="hidden" name="my_post_my_id" value="<%= p.id %>">
+                  <input type="hidden" name="my_reply_name" value="<%= current_user.nickname %>"> 
+                  <input class="col-xs-10 input_comment" type="text" name="myreply">
+                  <input class="col-xs-2 button_comment" type="submit" value="COMMENT" >
+                </form>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+      <% end %>
+    
+    
+    
+    
+<!-- make facebook cover image(modal) --------------------------------------------->
+<button class="fb_login fbcover" data-target="#fbcover" data-toggle="modal">
+  Make Facebook Cover
+</button>
+
+<div class="modal fade" id="fbcover" tabindex="-1">
+  <div class="modal-dialog modal-lg"> <!--'modla-lg' large size modal window-->
+    <div class="modal-content">
+      
+      <div class="modal-header"> <!-- header -->
+        <!-- 닫기(x) 버튼 -->
+        <button type="button" class="closeX" data-dismiss="modal"> x </button>
+        <!-- header title -->
+        <h4 class="modal-title">Facebook Cover Photo</h4>
+      </div>
+      
+      <div class="modal-body"> <!-- body -->
+          <img src="//rooftop-ghanhanhan-2.c9.io/<%= params[:username] %>.png">
+      </div>
+      
+      <div class="modal-footer"> <!-- Footer -->
+        <button type="button" class="fb_login" onclick="postImageToWall('https://rooftop-ghanhanhan-2.c9.io/<%= params[:username] %>.png')">Post this Cover Photo on Facebook!</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<%= @user_nav.myname %> : <%= @user_nav.myage %> : <%= @user_nav.mygender %> : <%= @user_nav.mynationality %> : <%= @user_nav.myetc %>
 
+</br>
+<% if @user_nav %>
+<%= @user_nav.myname %> &nbsp; <%= @user_nav.myage %> &nbsp; <%= @user_nav.mygender %> &nbsp; <%= @user_nav.mynationality %> &nbsp; <%= @user_nav.myetc %>
+<% end %>
+
+
+
+    
+  <% end %> <!-- 회원가입된 nickname의 페이지인지 판단하는 if절의 end -->
+</div> <!-- Content layout -->
 
 
 
 <!------ ZEROCLIPBOARD SCRIPT (LINK COPY) ---------------------------->
-<script src='//code.jquery.com/jquery.min.js'></script>
 <script src='//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js'></script>
 <script>
 $(function() {
@@ -119,8 +246,114 @@ $(function() {
 	});
 });
 
+// function circleImageClick () {
+//     $('.deletePhoto').hide();
+//     $('.photoPreview').click(function() {
+//         $(this).attr('disabled', 'true');
+//         $('#uploadAvatar').trigger('click');
+//     });
+//     $("#uploadAvatar").change(function(){
+//         $('.photoPreview').removeAttr('disabled');
+//         readURL(this);
+//     });
+//   }
+//   function readURL(input) {
+//       if (input.files && input.files[0]) {
+//           var reader = new FileReader();
+
+//           reader.onload = function (e) {
+//               $('.photoPreview').css('background', 'url(' + e.target.result + ')');
+//               $('.photoUpload, #uploadClick').hide();
+//           }
+//           $('.deletePhoto').show();
+
+//           reader.readAsDataURL(input.files[0]);
+//       }
+//   }
+//   function deletePhoto () {
+//       $('.deletePhoto').click(function() {
+//           $('.deletePhoto').hide();
+//           $('#uploadAvatar').val('');
+//           $('.photoPreview').css('background', '');
+//           $('.photoUpload, #uploadClick').show();
+//       });
+//   }
+
 </script>
 
 
 <!--------------- crop -------------------------------------->
 <%= render :partial => "/home/imgcrop" %>
+
+
+<!--facebook javascript-->
+<input type="hidden" id="fb_access_token"/>          
+<script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '658492017621365',
+        xfbml      : true,
+        version    : 'v2.4'
+      });
+    };
+  
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+     
+    function postImageToWall(imageUrl) {
+      // FB.ui({
+      //   method: 'feed',
+      //   picture: imageUrl,
+      // }, function(response) {
+      //   console.log('ui');
+      //   console.log(response);
+      // });
+      FB.getLoginStatus(function (response) {
+        if (response.authResponse) {
+          FB.login(function(){
+            // Note: The call will only work if you accept the permission request
+            FB.api(
+              "/me/photos",
+              "POST",
+              {
+                  "url": imageUrl
+              },
+              function (response) {
+                if (response && !response.error) {
+                  // alert('Posted to Facebook!!');
+                  window.open("https://facebook.com");
+                  return false;
+                }
+              }
+            );
+          }, {scope: 'publish_actions'});
+        } else {
+          FB.login(function(){
+            // Note: The call will only work if you accept the permission request
+            FB.api(
+              "/me/photos",
+              "POST",
+              {
+                  "url": imageUrl
+              },
+              function (response) {
+                if (response && !response.error) {
+                  console.log(response);
+                }
+              }
+            );
+          }, {scope: 'publish_actions'});
+        }
+      });
+    }
+    
+  
+</script>
+<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+
+<!--<script src="bower_components/jquery.boxfit/dist/jquery.boxfit.min.js" type="text/javascript"></script>-->

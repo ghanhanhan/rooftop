@@ -3,8 +3,8 @@ class CreateReplies < ActiveRecord::Migration
     create_table :replies do |t|
       
       t.integer:post_id
+      t.string :nickname_id
       t.string :content
-
       t.timestamps null: false
     end
   end
